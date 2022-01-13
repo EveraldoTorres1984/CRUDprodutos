@@ -50,6 +50,7 @@ public class Produto {
      * @param valor the valor to set
      */
     public void setValor(double valor) {
+
         this.valor = valor;
     }
 
