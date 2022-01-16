@@ -8,6 +8,7 @@ package BD;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -51,6 +52,17 @@ public class Conexao {
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao fechar conexão" + ex);
+        }
+    }
+
+    public static void closeConnection(Connection con, PreparedStatement stmt, ResultSet rs) {
+        closeConnection(con);
+        try {
+            if (rs != null){
+                rs.close();
+            }
+        } catch (SQLException ex) {
+             JOptionPane.showMessageDialog(null, "Erro ao fechar conexão" + ex);
         }
     }
 }

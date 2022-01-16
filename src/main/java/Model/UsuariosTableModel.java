@@ -5,8 +5,8 @@
  */
 package Model;
 
-import DAO.ProdutoDAO;
-import Objetos.Produto;
+import DAO.UsuariosDAO;
+import Objetos.Usuarios;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -15,10 +15,10 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author torre
  */
-public class ProdutoTableModel extends AbstractTableModel {
+public class UsuariosTableModel extends AbstractTableModel {
 
-    private List<Produto> dados = new ArrayList<>();
-    private String[] colunas = {"Descrição", "Quantidade", "Valor"};
+    private List<Usuarios> dados = new ArrayList<>();
+    private String[] colunas = {"Nome", "Login", "Senha"};
 
     @Override
     public String getColumnName(int column) {
@@ -36,59 +36,61 @@ public class ProdutoTableModel extends AbstractTableModel {
     }
 
     @Override
+
     public Object getValueAt(int linha, int coluna) {
         switch (coluna) {
             case 0:
-                return dados.get(linha).getDescricao();
+                return dados.get(linha).getNome();
             case 1:
-                return dados.get(linha).getQtde();
+                return dados.get(linha).getLogin();
             case 2:
-                return dados.get(linha).getValor();
+                return dados.get(linha).getSenha();
         }
         return null;
     }
 
     @Override
     public void setValueAt(Object valor, int linha, int coluna) {
+
         switch (coluna) {
             case 0:
-                dados.get(linha).setDescricao((String) valor);
+                dados.get(linha).setNome((String) valor);
                 break;
             case 1:
-                dados.get(linha).setQtde(Integer.parseInt((String) valor));
+                dados.get(linha).setLogin((String) valor);
                 break;
             case 2:
-                dados.get(linha).setValor(Double.parseDouble((String) valor));
+                dados.get(linha).setSenha((String) valor);
                 break;
         }
         this.fireTableRowsUpdated(linha, linha);
     }
 
-    //método para adicionar linhas na tabela
-    public void addLinha(Produto p) {
-        this.dados.add(p);
+    //adicionando linhas na tabela Usuarios
+    public void addLinha(Usuarios u) {
+        this.dados.add(u);
         this.fireTableDataChanged();
     }
 
-    //mmetodo para remover linha na tabela
-    public void removerLinha(int linha) {
-        this.dados.remove(linha);
-        this.fireTableRowsDeleted(linha, linha);
+    //removendo linhas da tabela Usuarios
+    public void removerLinha(int linha){
+     this.dados.remove(linha);
+     this.fireTableRowsDeleted(linha, linha);
     }
-
-    public Produto pegaDadosLinha(int linha) {
+    
+    public Usuarios pegaDadosLinha(int linha){
         return dados.get(linha);
     }
-
-    private void lerDados() {
-        ProdutoDAO pdao = new ProdutoDAO();
-
-        for (Produto p : pdao.read()) {
-            this.addLinha(p);
+    
+    private void lerDados(){
+    
+        UsuariosDAO udao = new UsuariosDAO();
+        
+        for (Usuarios u : udao.read()){
+        this.addLinha(u);
         }
-        this.fireTableDataChanged();
+    
     }
-
     public void recarregaTabela() {
         this.dados.clear();
         lerDados();
